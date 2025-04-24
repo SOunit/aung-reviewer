@@ -1,0 +1,19 @@
+{
+  "name": "aung-reviewer",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "- She helps to review your PR and whole project and gives great feedback to you.",
+  "main": "cli.js",
+  "scripts": {
+    "start": "node cli.js",
+    "server": "node server.js",
+    "dev": "nodemon cli.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "child_process": "^1.0.2"
+  }
+}
