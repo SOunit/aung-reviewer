@@ -6,7 +6,7 @@
   "main": "cli.js",
   "scripts": {
     "start": "node cli/cli.js",
-    "cli": "node cli/cli.js develop...main",
+    "cli": "node cli/cli.js main...develop",
     "server": "nodemon server/index.js",
     "dev": "run-s server cli"
   },
