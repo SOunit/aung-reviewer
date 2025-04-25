@@ -1,7 +1,12 @@
 import { exec } from 'child_process';
 import { reviewDiff } from './review.js';
 
-exec('git diff', async (error, stdout, stderr) => {
+// from script command line: node cli/cli.js
+const args = process.argv.slice(2); // ["develop...main"]
+const range = args[0] || ''; // fallback to empty (→ `git diff`)
+const gitDiffCommand = `git diff ${range}`;
+
+exec(gitDiffCommand, async (error, stdout, stderr) => {
   if (error) {
     console.error(`Error running git diff: ${error.message}`);
     return;
