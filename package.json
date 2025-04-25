@@ -5,10 +5,9 @@
   "description": "- She helps to review your PR and whole project and gives great feedback to you.",
   "main": "cli.js",
   "scripts": {
-    "start": "node cli/cli.js",
-    "cli": "node cli/cli.js main...develop",
+    "check:pr": "node cli/cli.js main...develop",
     "server": "nodemon server/index.js",
-    "dev": "run-s server cli"
+    "dev": "run-s server"
   },
   "keywords": [],
   "author": "",
