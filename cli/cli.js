@@ -17,7 +17,7 @@ exec(gitDiffCommand, async (error, stdout, stderr) => {
   const diffText = stdout;
   const review = await reviewDiff(diffText);
 
-  const outputPath = path.resolve('../client/public/result.json');
+  const outputPath = path.resolve('./client/public/result.json');
   fs.writeFileSync(outputPath, JSON.stringify(review, null, 2), 'utf-8');
 
   console.log(`✅ Review result saved to: ${outputPath}`);
