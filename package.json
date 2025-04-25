@@ -5,8 +5,8 @@
   "description": "- She helps to review your PR and whole project and gives great feedback to you.",
   "main": "cli.js",
   "scripts": {
-    "start": "node cli.js",
-    "cli": "nodemon cli.js",
+    "start": "node cli/cli.js",
+    "cli": "node cli/cli.js",
     "server": "nodemon server/index.js",
     "dev": "run-s server cli"
   },
