@@ -4,7 +4,10 @@ import { useEffect, useState } from "react";
 
 type ReviewItem = {
   title: string;
-  message: string;
+  change: string;
+  feedback: string;
+  suggestion: string;
+  type: "Positive" | "Negative";
 };
 
 export default function ReviewPage() {
@@ -14,7 +17,7 @@ export default function ReviewPage() {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const res = await fetch("/result.json");
+        const res = await fetch("/api/review");
         const data = await res.json();
         console.log({data});
         setReviews(data);
@@ -38,15 +41,46 @@ export default function ReviewPage() {
 
   return (
     <div className="p-8 grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-      {reviews.map((review, idx) => (
-        <div
-          key={idx}
-          className="p-6 border rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-white"
-        >
-          <h2 className="text-xl font-bold mb-4 text-indigo-700">{review.title}</h2>
-          <p className="text-gray-700">{review.message}</p>
+      {reviews.map((review, idx) => {
+  const isPositive = review.type === "Positive";
+
+  return (
+    <div
+      key={idx}
+      className={`p-6 rounded-2xl shadow-md hover:shadow-xl transition-all flex flex-col gap-4 ${
+        isPositive 
+          ? "bg-green-50 border-green-200" 
+          : "bg-red-50 border-red-200"
+      }`}
+    >
+      <div className="flex items-center gap-3">
+        <div className={isPositive ? "text-green-600" : "text-red-600"}>
+          {isPositive ? "✅" : "⚠️"}
         </div>
-      ))}
+        <h2 className="text-lg font-bold text-gray-800">{review.title}</h2>
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <div>
+          <p className="text-xs font-semibold text-gray-400 uppercase">Change</p>
+          <p className="text-sm text-gray-700">{review.change}</p>
+        </div>
+
+        <div>
+          <p className="text-xs font-semibold text-gray-400 uppercase">Feedback</p>
+          <p className="text-sm text-gray-700">{review.feedback}</p>
+        </div>
+
+        <div>
+          <p className="text-xs font-semibold text-gray-400 uppercase">Suggestion</p>
+          <p className="text-sm text-gray-700">{review.suggestion}</p>
+        </div>
+      </div>
     </div>
+  );
+})}
+
+    </div>
+    
   );
 }

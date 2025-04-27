@@ -22,18 +22,29 @@ exec(gitDiffCommand, async (error, stdout, stderr) => {
 
   const diffText = stdout;
   const review = await reviewDiff(diffText);
-  const parsedReview = typeof review === 'string' ? JSON.parse(review) : review;
+  console.log('Review result:', review);
+  try {
+    const parsedReview =
+      typeof review === 'string' ? JSON.parse(review) : review;
 
-  // save to home directory
-  const reviewerDir = path.join(os.homedir(), '.aung-reviewer');
-  if (!fs.existsSync(reviewerDir)) {
-    fs.mkdirSync(reviewerDir);
+    // save to home directory
+    const reviewerDir = path.join(os.homedir(), '.aung-reviewer');
+    if (!fs.existsSync(reviewerDir)) {
+      fs.mkdirSync(reviewerDir);
+    }
+
+    const outputPath = path.resolve(reviewerDir, 'result.json');
+    fs.writeFileSync(
+      outputPath,
+      JSON.stringify(parsedReview, null, 2),
+      'utf-8'
+    );
+
+    console.log(`✅ Review result saved to: ${outputPath}`);
+  } catch (error) {
+    console.error('Error parsing review result:', error.message);
+    return;
   }
-
-  const outputPath = path.resolve(reviewerDir, 'result.json');
-  fs.writeFileSync(outputPath, JSON.stringify(parsedReview, null, 2), 'utf-8');
-
-  console.log(`✅ Review result saved to: ${outputPath}`);
 
   // get project root path
   const __filename = fileURLToPath(import.meta.url);
