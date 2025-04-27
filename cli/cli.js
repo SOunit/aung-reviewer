@@ -18,9 +18,12 @@ exec(gitDiffCommand, async (error, stdout, stderr) => {
 
   const diffText = stdout;
   const review = await reviewDiff(diffText);
+  const parsedReview = typeof review === 'string' ? JSON.parse(review) : review;
+
+  console.log({ review, parsedReview });
 
   const outputPath = path.resolve('./client/public/result.json');
-  fs.writeFileSync(outputPath, JSON.stringify(review, null, 2), 'utf-8');
+  fs.writeFileSync(outputPath, JSON.stringify(parsedReview, null, 2), 'utf-8');
 
   console.log(`✅ Review result saved to: ${outputPath}`);
 
