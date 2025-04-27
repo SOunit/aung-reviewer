@@ -10,11 +10,16 @@ Each item in the array must include:
 - "fileName": The name of the file being changed (for example, "Button.tsx").
 - "title": A short title for the review item (in Japanese)
 - "change": A short description of the change (optional, in Japanese)
-- "feedback": A detailed explanation of the review comment (in Japanese)
-- "suggestion": A concrete suggestion on how to improve or fix the issue (in Japanese)
-- "type": Either "Positive" or "Negative" based on the feedback:
-  - If there are no particular issues or the changes are good, set "type" to "Positive".
-  - If there are problems, issues, or points of improvement, set "type" to "Negative".
+- "type": Either "Positive" or "Negative" based on the review:
+  - If the change has no issues, set "type" to "Positive".
+  - If the change has problems or needs improvement, set "type" to "Negative".
+
+Depending on the "type":
+- If the "type" is "Positive":
+  - Include a "feedback" field describing the positive aspects of the change (in Japanese).
+- If the "type" is "Negative":
+  - Include an "issue" field describing the problem or risk (in Japanese).
+  - Include a "suggestion" field providing a specific recommendation for improvement (in Japanese).
 
 Important:
 - Return only **pure JSON** without any extra text.
