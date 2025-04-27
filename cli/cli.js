@@ -5,7 +5,7 @@ import path from 'path';
 import open from 'open'; // npm install open --save-dev
 import waitOn from 'wait-on';
 import os from 'os';
-import { exec, spawn } from 'child_process';
+import { exec, spawn, execSync } from 'child_process';
 import { reviewDiff } from './review.js';
 import { fileURLToPath } from 'url';
 
@@ -14,6 +14,41 @@ const args = process.argv.slice(2); // ["develop...main"]
 const range = args[0] || ''; // fallback to empty (→ `git diff`)
 const gitDiffCommand = `git diff ${range}`;
 
+function getChangedFiles(range) {
+  try {
+    const files = execSync(`git diff --name-only ${range}`, {
+      encoding: 'utf-8',
+    });
+    return files
+      .split('\n')
+      .map((file) => file.trim())
+      .filter((file) => file.length > 0);
+  } catch (error) {
+    console.error('Failed to get changed files:', error);
+    return [];
+  }
+}
+
+function readFilesContent(filePaths) {
+  const contents = [];
+
+  for (const filePath of filePaths) {
+    try {
+      const fullPath = path.resolve(filePath);
+      const content = fs.readFileSync(fullPath, 'utf-8');
+
+      contents.push({
+        filePath,
+        content,
+      });
+    } catch (error) {
+      console.error(`Failed to read file: ${filePath}`, error);
+    }
+  }
+
+  return contents;
+}
+
 exec(gitDiffCommand, async (error, stdout, stderr) => {
   if (error) {
     console.error(`Error running git diff: ${error.message}`);
@@ -21,7 +56,10 @@ exec(gitDiffCommand, async (error, stdout, stderr) => {
   }
 
   const diffText = stdout;
-  const review = await reviewDiff(diffText);
+  const changedFiles = getChangedFiles(range);
+  const filesContent = readFilesContent(changedFiles);
+
+  const review = await reviewDiff(diffText, filesContent);
   console.log('Review result:', review);
   try {
     const parsedReview =
