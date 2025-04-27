@@ -6,6 +6,8 @@ export async function reviewDiff(diffText) {
 You are a senior software engineer. Please review the following git diff and return structured feedback as a JSON array.
 
 Each item in the array must include:
+- "filePath": The full path of the file being changed (for example, "src/components/Button.tsx").
+- "fileName": The name of the file being changed (for example, "Button.tsx").
 - "title": A short title for the review item (in Japanese)
 - "change": A short description of the change (optional, in Japanese)
 - "feedback": A detailed explanation of the review comment (in Japanese)

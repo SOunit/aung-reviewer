@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 
 type ReviewItem = {
+  fileName: string;
+  filePath: string;
   title: string;
   change: string;
   feedback: string;
@@ -62,6 +64,11 @@ export default function ReviewPage() {
 
       <div className="flex flex-col gap-2">
         <div>
+          <p className="text-xs font-semibold text-gray-400 uppercase">File Name</p>
+          <p className="text-sm text-gray-700">{review.fileName}</p>
+        </div>
+
+        <div>
           <p className="text-xs font-semibold text-gray-400 uppercase">Change</p>
           <p className="text-sm text-gray-700">{review.change}</p>
         </div>
@@ -74,6 +81,11 @@ export default function ReviewPage() {
         <div>
           <p className="text-xs font-semibold text-gray-400 uppercase">Suggestion</p>
           <p className="text-sm text-gray-700">{review.suggestion}</p>
+        </div>
+
+        <div>
+          <p className="text-xs font-semibold text-gray-400 uppercase">File Path</p>
+          <p className="text-sm text-gray-700">{review.filePath}</p>
         </div>
       </div>
     </div>
