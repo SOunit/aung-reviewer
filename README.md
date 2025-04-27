@@ -14,8 +14,6 @@ git clone https://github.com/your-username/aung-reviewer.git
 cd aung-reviewer
 ```
 
-````
-
 2. **Create a `.env` file and set your OpenAI API key**
 
 ```env
@@ -74,6 +72,3 @@ MIT License
 
 Contributions and feedback are welcome!
 Feel free to open issues or submit pull requests to help improve Aung Reviewer together! ✨
-
-```
-````
