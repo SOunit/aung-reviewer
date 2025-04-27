@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import { exec } from 'child_process';
+import open from 'open'; // npm install open --save-dev
+import waitOn from 'wait-on';
+import { exec, spawn } from 'child_process';
 import { reviewDiff } from './review.js';
 
 // from script command line: node cli/cli.js
@@ -21,4 +23,28 @@ exec(gitDiffCommand, async (error, stdout, stderr) => {
   fs.writeFileSync(outputPath, JSON.stringify(review, null, 2), 'utf-8');
 
   console.log(`✅ Review result saved to: ${outputPath}`);
+
+  const clientProcess = spawn('npm', ['run', 'dev'], {
+    cwd: path.resolve('./client'), // client/ディレクトリで実行する
+    stdio: 'inherit', // 子プロセスの出力をそのままコンソールに表示
+    shell: true, // Windows対応のため shell: true をつける
+  });
+
+  clientProcess.on('close', (code) => {
+    console.log(`Client exited with code ${code}`);
+  });
+
+  // 🌟 サーバー起動を検知してからブラウザを開く！
+  waitOn({
+    resources: ['http://localhost:3000/review'],
+    timeout: 60000, // 最大60秒待つ
+    interval: 1000, // 1秒ごとにチェック
+  })
+    .then(() => {
+      console.log('🌐 Server is ready. Opening browser...');
+      open('http://localhost:3000/review');
+    })
+    .catch((err) => {
+      console.error('❌ Timeout waiting for server to be ready.', err);
+    });
 });
