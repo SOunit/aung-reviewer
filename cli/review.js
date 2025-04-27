@@ -5,15 +5,27 @@ export async function reviewDiff(diffText) {
   const prompt = `
 You are a senior software engineer. Please review the following git diff and return structured feedback as a JSON array.
 
-Each item in the array should include:
+Each item in the array must include:
+- "filePath": The full path of the file being changed (for example, "src/components/Button.tsx").
+- "fileName": The name of the file being changed (for example, "Button.tsx").
 - "title": A short title for the review item (in Japanese)
 - "change": A short description of the change (optional, in Japanese)
-- "feedback": A detailed explanation of the review comment (in Japanese)
+- "type": Either "Positive" or "Negative" based on the review:
+  - If the change has no issues, set "type" to "Positive".
+  - If the change has problems or needs improvement, set "type" to "Negative".
 
-Only include review items if you find improvements or problems in the code.  
-If the code looks fine and there is nothing to improve, return an empty array: []
+Depending on the "type":
+- If the "type" is "Positive":
+  - Include a "feedback" field describing the positive aspects of the change (in Japanese).
+- If the "type" is "Negative":
+  - Include an "issue" field describing the problem or risk (in Japanese).
+  - Include a "suggestion" field providing a specific recommendation for improvement (in Japanese).
 
-Return only valid JSON. Do not include any summary, compliments, or markdown. No extra text.
+Important:
+- Return only **pure JSON** without any extra text.
+- Do not wrap the JSON in code block markers (like \`\`\`json or \`\`\`).
+- Do not add any summary, greeting, or explanation.
+- Respond with raw JSON only.
 
 Here is the git diff:
 

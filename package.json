@@ -4,11 +4,13 @@
   "type": "module",
   "description": "- She helps to review your PR and whole project and gives great feedback to you.",
   "main": "cli.js",
+  "bin": {
+    "aung-reviewer": "./cli/cli.js"
+  },
   "scripts": {
-    "start": "node cli/cli.js",
-    "cli": "node cli/cli.js main...develop",
+    "check:pr": "node cli/cli.js main...develop",
     "server": "nodemon server/index.js",
-    "dev": "run-s server cli"
+    "dev": "run-s server"
   },
   "keywords": [],
   "author": "",
@@ -20,9 +22,11 @@
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "openai": "^4.96.0"
+    "openai": "^4.96.0",
+    "wait-on": "^8.0.3"
   },
   "devDependencies": {
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "open": "^10.1.1"
   }
 }
