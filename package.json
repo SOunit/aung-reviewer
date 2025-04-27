@@ -4,6 +4,9 @@
   "type": "module",
   "description": "- She helps to review your PR and whole project and gives great feedback to you.",
   "main": "cli.js",
+  "bin": {
+    "aung-reviewer": "./cli/cli.js"
+  },
   "scripts": {
     "check:pr": "node cli/cli.js main...develop",
     "server": "nodemon server/index.js",
